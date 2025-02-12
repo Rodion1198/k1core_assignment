@@ -1,0 +1,56 @@
+services:
+  api:
+    build: .
+    container_name: k1core_django_fastapi
+    user: rodion
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    volumes:
+      - ./fastapi:/app
+    env_file:
+      - .env
+    command: ["bash", "./scripts/runlocalserver.sh"]
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: k1core_postgres
+    user: postgres
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+#  celery:
+#    build: .
+#    command: celery -A config worker -l INFO
+#    user: rodion
+#    volumes:
+#      - ./fastapi:/app
+#    env_file:
+#      - .env
+#    depends_on:
+#      - api
+#      - redis
+#      - postgres
+#    restart: on-failure
+#
+#  redis:
+#    image: redis:alpine
+#    container_name: redis_k1core
+#    user: redis
+#    read_only: true
+#    restart: always
+#    expose:
+#      - "6379"
+#    depends_on:
+#      - postgres
+
+volumes:
+  postgres_data:
