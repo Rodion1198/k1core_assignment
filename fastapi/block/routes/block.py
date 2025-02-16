@@ -23,7 +23,7 @@ async def get_blocks(
 async def get_block_by_currency_and_number(
         currency: str = Path(..., description="Currency name (BTC, ETH)"),
         number: int = Path(..., description="Block number"),
-        # user=Depends(get_current_user),
+        user=Depends(get_current_user),
 ):
     return await BlockAPI.get_block_by_currency_and_number(currency, number)
 
@@ -31,6 +31,6 @@ async def get_block_by_currency_and_number(
 @router.get("/{block_id}", response_model=BlockSchema)
 async def get_block_by_id(
         block_id: int = Path(..., description="Block ID"),
-        # user=Depends(get_current_user),
+        user=Depends(get_current_user),
 ):
     return await BlockAPI.get_block_by_id(block_id)

@@ -167,5 +167,4 @@ COINMARKETCAP_API_HOST = os.getenv('COINMARKETCAP_API_HOST', 'https://sandbox-ap
 # this is a Public api key for sandbox. https://coinmarketcap.com/api/documentation/v1/#section/Quick-Start-Guide
 COINMARKETCAP_API_KEY = os.getenv('COINMARKETCAP_API_KEY', 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c')
 
-
 BLOCKCHAIR_API_HOST = os.getenv('BLOCKCHAIR_API_HOST', 'https://api.blockchair.com')

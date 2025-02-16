@@ -27,46 +27,46 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-#  worker:
-#    build: .
-#    command: celery -A config worker -l INFO
-#    container_name: k1core_worker
-#    user: rodion
-#    volumes:
-#      - ./fastapi:/app
-#    env_file:
-#      - .env
-#    depends_on:
-#      - api
-#      - redis
-#      - postgres
-#    restart: on-failure
-#
-#  celery-beat:
-#    build: .
-#    command: celery -A config beat -l INFO
-#    container_name: k1core_celery_beat
-#    user: rodion
-#    volumes:
-#      - ./fastapi:/app
-#    env_file:
-#      - .env
-#    depends_on:
-#      - api
-#      - redis
-#      - postgres
-#      - worker
-#
-#  redis:
-#    image: redis:alpine
-#    container_name: redis_k1core
-#    user: redis
-#    read_only: true
-#    restart: always
-#    expose:
-#      - "6379"
-#    depends_on:
-#      - postgres
+  worker:
+    build: .
+    command: celery -A config worker -l INFO
+    container_name: k1core_worker
+    user: rodion
+    volumes:
+      - ./fastapi:/app
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+      - postgres
+    restart: on-failure
+
+  celery-beat:
+    build: .
+    command: celery -A config beat -l INFO
+    container_name: k1core_celery_beat
+    user: rodion
+    volumes:
+      - ./fastapi:/app
+    env_file:
+      - .env
+    depends_on:
+      - api
+      - redis
+      - postgres
+      - worker
+
+  redis:
+    image: redis:alpine
+    container_name: redis_k1core
+    user: redis
+    read_only: true
+    restart: always
+    expose:
+      - "6379"
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:

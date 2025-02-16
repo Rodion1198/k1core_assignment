@@ -10,19 +10,10 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-"""
-Settings
-"""
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-"""
-Django settings
-"""
 django_app = get_asgi_application()
 
-"""
-FastAPI settings
-"""
 
 from user.routes.user import router as user_router
 from user.routes.auth import router as auth_router
@@ -42,7 +33,6 @@ api_v1_router.include_router(provider_router, prefix="/provider", tags=["provide
 api_v1_router.include_router(block_router, prefix="/block", tags=["block"])
 
 fastapi_app.include_router(api_v1_router)
-# fastapi_app.include_router(health_router, tags=["health"], prefix="/health")
 
 # to mount Django
 fastapi_app.mount("/django", django_app)
