@@ -8,11 +8,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/login")
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
-    """Получает текущего пользователя из JWT"""
-    print(token)
     try:
         payload = AccessToken(token)
-        print(payload)
         user_id = payload["user_id"]
         user = await sync_to_async(User.objects.get)(id=user_id)
         return user

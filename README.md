@@ -55,3 +55,14 @@ make run  # common mode
 # or
 make run-d  # daemon mode
 ```
+
+## API
+
+The API is available at `http://localhost:8000/docs`.
+
+You can use Postman [collection](https://www.postman.com/joint-operations-administrator-42085091/workspace/myworkspace/collection/21366085-9f7e8a38-0d4a-4055-ba91-1aad5516908c?action=share&creator=21366085
+) to interact with API.
+
+
+## Admin panel
+The admin panel is available at `http://localhost:8000/django/admin`.
