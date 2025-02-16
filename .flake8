@@ -7,3 +7,4 @@ exclude =
     venv/
     .idea/
     fastapi/config/settings.py
+    fastapi/config/asgi.py

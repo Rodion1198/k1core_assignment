@@ -27,9 +27,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-#  celery:
+#  worker:
 #    build: .
 #    command: celery -A config worker -l INFO
+#    container_name: k1core_worker
 #    user: rodion
 #    volumes:
 #      - ./fastapi:/app
@@ -40,6 +41,21 @@ services:
 #      - redis
 #      - postgres
 #    restart: on-failure
+#
+#  celery-beat:
+#    build: .
+#    command: celery -A config beat -l INFO
+#    container_name: k1core_celery_beat
+#    user: rodion
+#    volumes:
+#      - ./fastapi:/app
+#    env_file:
+#      - .env
+#    depends_on:
+#      - api
+#      - redis
+#      - postgres
+#      - worker
 #
 #  redis:
 #    image: redis:alpine

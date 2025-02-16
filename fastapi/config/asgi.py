@@ -10,11 +10,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-# from app.routers import auth_router, health_router, user_router
-
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-
 """
 Settings
 """
@@ -29,14 +24,31 @@ django_app = get_asgi_application()
 FastAPI settings
 """
 
+from user.routes.user import router as user_router
+from user.routes.auth import router as auth_router
+from provider.routes.provider import router as provider_router
+from block.routes.block import router as block_router
+
+from fastapi import FastAPI, APIRouter
+from fastapi.staticfiles import StaticFiles
+
 fastapi_app = FastAPI()
 
 # routers
-# fastapi_app.include_router(user_router, tags=["users"], prefix="/user")
-# fastapi_app.include_router(auth_router, tags=["auth"], prefix="/auth")
+api_v1_router = APIRouter(prefix="/api/v1")
+api_v1_router.include_router(user_router, prefix="/user", tags=["user"])
+api_v1_router.include_router(auth_router, prefix="/auth", tags=["auth"])
+api_v1_router.include_router(provider_router, prefix="/provider", tags=["provider"])
+api_v1_router.include_router(block_router, prefix="/block", tags=["block"])
+
+fastapi_app.include_router(api_v1_router)
 # fastapi_app.include_router(health_router, tags=["health"], prefix="/health")
 
 # to mount Django
 fastapi_app.mount("/django", django_app)
 fastapi_app.mount("/static", StaticFiles(directory="static"), name="static")
-fastapi_app.mount("/media", StaticFiles(directory="media"), name="media")
+
+
+@fastapi_app.get("/health", tags=["health check"])
+async def health_check():
+    return {"message": "FastAPI + Django works fine!"}

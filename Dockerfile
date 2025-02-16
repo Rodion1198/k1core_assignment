@@ -38,6 +38,3 @@ ENV PYTHONPATH="${DEPENDENCIES_DIR}:${PYTHONPATH}"
 ENV PATH="${DEPENDENCIES_DIR}/bin:${PATH}"
 
 COPY --chown=rodion:kgroup . ${BASE_DIR}/
-
-
-# RUN python manage.py collectstatic --noinput
