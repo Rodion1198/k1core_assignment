@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from config.utils import to_list, to_bool
@@ -38,6 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    "rest_framework",
+    "rest_framework_simplejwt",
+
+    'provider',
+    'block',
+    'core',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +114,21 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "SIGNING_KEY": os.getenv('SECRET_KEY'),
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -127,15 +151,21 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
+AUTH_USER_MODEL = "user.User"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REDIS_HOST = os.getenv('REDIS_HOST')
-# REDIS_PORT = os.getenv('REDIS_PORT')
-
-# CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT
-
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://127.0.0.1:6379/0")
+
+ENCRYPTION_SECRET_KEY = os.environ.get("ENCRYPTION_SECRET_KEY", 'encryption_secret_key')
+
+COINMARKETCAP_API_HOST = os.getenv('COINMARKETCAP_API_HOST', 'https://sandbox-api.coinmarketcap.com')
+# this is a Public api key for sandbox. https://coinmarketcap.com/api/documentation/v1/#section/Quick-Start-Guide
+COINMARKETCAP_API_KEY = os.getenv('COINMARKETCAP_API_KEY', 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c')
+
+
+BLOCKCHAIR_API_HOST = os.getenv('BLOCKCHAIR_API_HOST', 'https://api.blockchair.com')
