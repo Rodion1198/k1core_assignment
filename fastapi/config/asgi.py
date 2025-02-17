@@ -21,9 +21,18 @@ from provider.routes.provider import router as provider_router
 from block.routes.block import router as block_router
 
 from fastapi import FastAPI, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 fastapi_app = FastAPI()
+
+fastapi_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
 
 # routers
 api_v1_router = APIRouter(prefix="/api/v1")
